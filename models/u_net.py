@@ -1,8 +1,9 @@
 import torch
 import torch.nn.functional as F
 from torch import nn
-
-from ..utils import initialize_weights
+import sys
+sys.path.append("..")
+from utils import initialize_weights
 
 
 class _EncoderBlock(nn.Module):

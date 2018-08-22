@@ -1,8 +1,9 @@
 import torch
 from torch import nn
 from torchvision import models
-
-from ..utils import initialize_weights
+import sys
+sys.path.append("..")
+from utils import initialize_weights
 from .config import vgg19_bn_path
 
 

@@ -4,7 +4,7 @@ import numpy as np
 import torch
 from PIL import Image
 from torch.utils import data
-# abc abc abc
+# acc acc acc
 num_classes = 19
 ignore_label = 255
 root = '/home/zhangli/Datasets/cityscapes'

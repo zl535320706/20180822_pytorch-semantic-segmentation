@@ -5,7 +5,7 @@
       <paths name="sychronize_zyq's_server">
         <serverdata>
           <mappings>
-            <mapping deploy="/pytorch-semantic-segmentation" local="$PROJECT_DIR$" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

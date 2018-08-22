@@ -4,7 +4,7 @@ import numpy as np
 import torch
 from PIL import Image
 from torch.utils import data
-
+# test test test
 num_classes = 19
 ignore_label = 255
 root = '/home/zhangli/Datasets/cityscapes'

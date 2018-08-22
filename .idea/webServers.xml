@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="af0c2503-7f8e-45a4-a1e3-74b48d718aef" name="sychronize_zyq's_server" url="http://192.168.55.106">
+        <fileTransfer host="192.168.55.106" port="22" rootFolder="/home/zhangli" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

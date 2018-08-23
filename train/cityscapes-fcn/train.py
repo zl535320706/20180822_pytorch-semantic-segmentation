@@ -23,9 +23,10 @@ cudnn.benchmark = True
 ckpt_path = '../../ckpt'
 exp_name = 'cityscapes-fcn8s'
 writer = SummaryWriter(os.path.join(ckpt_path, 'exp', exp_name))
+BATCH_SIZE = 8
 
 args = {
-    'train_batch_size': 16,
+    'train_batch_size': BATCH_SIZE,
     'epoch_num': 500,
     'lr': 1e-10,
     'weight_decay': 5e-4,
@@ -34,7 +35,7 @@ args = {
     'lr_patience': 100,  # large patience denotes fixed lr
     'snapshot': '',  # empty string denotes no snapshot
     'print_freq': 20,
-    'val_batch_size': 16,
+    'val_batch_size': BATCH_SIZE,
     'val_save_to_img_file': False,
     'val_img_sample_rate': 0.05  # randomly sample some validation results to display
 }

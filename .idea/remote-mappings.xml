@@ -6,7 +6,7 @@
         <remote-mappings server-id="python@ssh://zhangli@192.168.55.106:22/home/zhangli/anaconda3/envs/pytorch/bin/python">
           <settings>
             <list>
-              <mapping local-root="$PROJECT_DIR$" remote-root="/home/zhangli/pytorch-semantic-segmentation" />
+              <mapping local-root="$PROJECT_DIR$" remote-root="/home/zhangli/20180822_pytorch-semantic-segmentation" />
             </list>
           </settings>
         </remote-mappings>

@@ -10,6 +10,14 @@
           <option name="port" value="22" />
         </fileTransfer>
       </webServer>
+      <webServer id="a1a37fa0-a011-41f1-8a0d-f817d024be83" name="sychronize_IPIR's_server" url="http://192.168.55.170">
+        <fileTransfer host="192.168.55.170" port="22" rootFolder="/home/zhangli" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

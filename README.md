@@ -1,4 +1,6 @@
 # PyTorch for Semantic Segmentation
+work well in python 3.6.6 pytorch 0.4.1 tensorflow 1.9 tensorboardX 1.2
+while training more than 2 days(the lr is 10e-10), the pixel acc is 0.5253, the acc_cls is 0.3711, the mean_iu is 0.1847 in datasets "cityscapes"(do not use external training data).
 This repository contains some models for semantic segmentation and the pipeline of training and testing models, 
 implemented in PyTorch
 

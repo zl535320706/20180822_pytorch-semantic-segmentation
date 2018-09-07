@@ -23,6 +23,7 @@ cudnn.benchmark = True
 ckpt_path = '../../ckpt'
 exp_name = 'cityscapes-fcn8s'
 writer = SummaryWriter(os.path.join(ckpt_path, 'exp', exp_name))
+os.system('rm -rf {:s}/*'.format(os.path.join(ckpt_path, 'exp', exp_name)))
 BATCH_SIZE = 6
 
 args = {

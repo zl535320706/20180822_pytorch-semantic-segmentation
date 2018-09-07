@@ -5,7 +5,7 @@ import random
 import numpy as np
 import torchvision.transforms as standard_transforms
 import torchvision.utils as vutils
-from tensorboard import SummaryWriter
+from tensorboardX import SummaryWriter
 from torch import optim
 from torch.autograd import Variable
 from torch.backends import cudnn
@@ -21,20 +21,22 @@ from utils import check_mkdir, evaluate, AverageMeter, CrossEntropyLoss2d
 cudnn.benchmark = True
 
 ckpt_path = '../../ckpt'
-exp_name = 'cityscapes-fcn8s (caffe vgg)'
+exp_name = 'cityscapes-fcn8s_caffe_vgg'
+os.system('rm -rf {:s}/*'.format(os.path.join(ckpt_path, 'exp', exp_name)))
 writer = SummaryWriter(os.path.join(ckpt_path, 'exp', exp_name))
+BATCH_SIZE = 4
 
 args = {
-    'train_batch_size': 12,
+    'train_batch_size': BATCH_SIZE,
     'epoch_num': 500,
-    'lr': 1e-10,
+    'lr': 1e-7,
     'weight_decay': 5e-4,
     'input_size': (256, 512),
     'momentum': 0.99,
     'lr_patience': 100,  # large patience denotes fixed lr
     'snapshot': '',  # empty string denotes no snapshot
     'print_freq': 20,
-    'val_batch_size': 16,
+    'val_batch_size': BATCH_SIZE,
     'val_save_to_img_file': False,
     'val_img_sample_rate': 0.05  # randomly sample some validation results to display
 }
@@ -209,7 +211,7 @@ def validate(val_loader, net, criterion, optimizer, epoch, train_args, restore, 
         val_visual = vutils.make_grid(val_visual, nrow=3, padding=5)
         writer.add_image(snapshot_name, val_visual)
 
-        print('-----------------------------------------------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------------------------------------')
     print('[epoch %d], [val loss %.5f], [acc %.5f], [acc_cls %.5f], [mean_iu %.5f], [fwavacc %.5f]' % (
         epoch, val_loss.avg, acc, acc_cls, mean_iu, fwavacc))
 

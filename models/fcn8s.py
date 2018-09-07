@@ -15,7 +15,7 @@ class FCN8s(nn.Module):
         if pretrained:
             if caffe:
                 # load the pretrained vgg16 used by the paper's author
-                vgg.load_state_dict(torch.load(vgg16_caffe_path))
+                vgg.load_state_dict(torch.load(vgg16_caffe_path),strict=False)
             else:
                 vgg.load_state_dict(torch.load(vgg16_path))
         features, classifier = list(vgg.features.children()), list(vgg.classifier.children())

@@ -15,4 +15,5 @@ dense201_path = os.path.join(root, 'DenseNet', 'densenet201-4c113574.pth')
 vgg16 trained using caffe
 visit this (https://github.com/jcjohnson/pytorch-vgg) to download the converted vgg16
 '''
-vgg16_caffe_path = os.path.join(root, 'VggNet', 'vgg16-caffe.pth')
+# vgg16_caffe_path = os.path.join(root, 'VggNet', 'vgg16-caffe.pth')
+vgg16_caffe_path = "/home/zhangli/.torch/models/vgg16-00b39a1b_caffe.pth"

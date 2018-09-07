@@ -4,7 +4,7 @@ from math import sqrt
 
 import numpy as np
 import torchvision.transforms as standard_transforms
-from tensorboard import SummaryWriter
+from tensorboardX import SummaryWriter
 from torch import optim
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
@@ -16,7 +16,8 @@ from models import *
 from utils import check_mkdir, evaluate, AverageMeter, CrossEntropyLoss2d
 
 ckpt_path = '../../ckpt'
-exp_name = 'cityscapes (fine)-psp_net'
+exp_name = 'cityscapes_fine-psp_net'
+os.system('rm -rf {:s}/*'.format(os.path.join(ckpt_path, 'exp', exp_name)))
 writer = SummaryWriter(os.path.join(ckpt_path, 'exp', exp_name))
 
 args = {

@@ -23,12 +23,12 @@ cudnn.benchmark = True
 ckpt_path = '../../ckpt'
 exp_name = 'cityscapes-fcn8s'
 writer = SummaryWriter(os.path.join(ckpt_path, 'exp', exp_name))
-BATCH_SIZE = 4
+BATCH_SIZE = 6
 
 args = {
     'train_batch_size': BATCH_SIZE,
     'epoch_num': 500,
-    'lr': 1e-10,
+    'lr': 1e-7,
     'weight_decay': 5e-4,
     'input_size': (256, 512),
     'momentum': 0.95,

@@ -1,9 +1,9 @@
 # PyTorch for Semantic Segmentation
 
-work well in python 3.6.6 pytorch 0.4.1 tensorflow 1.9 tensorboardX 1.2
-while training more than 2 days(the lr is 10e-7 in cityscapes-fcn & cityscapes_caffe_vgg and 1e-2 / sqrt(16 / 2) in psp_net),
+1. work well in python 3.6.6 pytorch 0.4.1 tensorflow 1.9 tensorboardX 1.2
+2.while training more than 2 days(the lr is 10e-7 in cityscapes-fcn & cityscapes_caffe_vgg and 1e-2 / sqrt(16 / 2) in psp_net),
 the pixel acc is 0.5253, the acc_cls is 0.3711, the mean_iu is 0.1847 in datasets "cityscapes"(do not use external training data).
-and the mean_iu is 0.49151 in datasets "cityscapes" in psp_net. It's not good enough to work as a baseline codes.
+3. and the mean_iu is 0.49151 in datasets "cityscapes" in psp_net. It's not good enough to work as a baseline codes.
 
 This repository contains some models for semantic segmentation and the pipeline of training and testing models,
 implemented in PyTorch

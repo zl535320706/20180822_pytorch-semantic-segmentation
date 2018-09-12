@@ -5,7 +5,7 @@ while training more than 2 days(the lr is 10e-7 in cityscapes-fcn & cityscapes_c
 the pixel acc is 0.5253, the acc_cls is 0.3711, the mean_iu is 0.1847 in datasets "cityscapes"(do not use external training data).
 and the mean_iu is 0.49151 in datasets "cityscapes" in psp_net. It's not good enough to work as a baseline codes.
 
-This repository contains some models for semantic segmentation and the pipeline of training and testing models, 
+This repository contains some models for semantic segmentation and the pipeline of training and testing models,
 implemented in PyTorch
 
 ## Models

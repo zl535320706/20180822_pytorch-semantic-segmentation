@@ -7,6 +7,7 @@ import torchvision.transforms as standard_transforms
 from tensorboardX import SummaryWriter
 from torch import optim
 from torch.autograd import Variable
+import torchvision.utils as vutils
 from torch.utils.data import DataLoader
 
 import utils.joint_transforms as joint_transforms
@@ -19,9 +20,10 @@ ckpt_path = '../../ckpt'
 exp_name = 'cityscapes_fine-psp_net'
 os.system('rm -rf {:s}/*'.format(os.path.join(ckpt_path, 'exp', exp_name)))
 writer = SummaryWriter(os.path.join(ckpt_path, 'exp', exp_name))
+BATCH_SIZE = 2
 
 args = {
-    'train_batch_size': 2,
+    'train_batch_size': BATCH_SIZE,
     'lr': 1e-2 / sqrt(16 / 2),
     'lr_decay': 0.9,
     'max_iter': 9e4,
@@ -32,7 +34,7 @@ args = {
     'momentum': 0.9,
     'snapshot': '',
     'print_freq': 10,
-    'val_save_to_img_file': False,
+    'val_save_to_img_file': True,
     'val_img_sample_rate': 0.01,  # randomly sample some validation results to display,
     'val_img_display_size': 384,
     'val_freq': 400
@@ -43,13 +45,12 @@ def main():
     net = PSPNet(num_classes=cityscapes.num_classes)
 
     if len(args['snapshot']) == 0:
-        # net.load_state_dict(torch.load(os.path.join(ckpt_path, 'cityscapes (coarse)-psp_net', 'xx.pth')))
         curr_epoch = 1
         args['best_record'] = {'epoch': 0, 'iter': 0, 'val_loss': 1e10, 'acc': 0, 'acc_cls': 0, 'mean_iu': 0,
                                'fwavacc': 0}
     else:
         print('training resumes from ' + args['snapshot'])
-        net.load_state_dict(torch.load(os.path.join(ckpt_path, exp_name, args['snapshot'])))
+        net.load_state_dict(torch.load(os.path.join(ckpt_path, exp_name, args['snapshot'])),strict=False)
         split_snapshot = args['snapshot'].split('_')
         curr_epoch = int(split_snapshot[1]) + 1
         args['best_record'] = {'epoch': int(split_snapshot[1]), 'iter': int(split_snapshot[3]),
@@ -120,6 +121,7 @@ def train(train_loader, net, criterion, optimizer, curr_epoch, train_args, val_l
                                                                   ) ** train_args['lr_decay']
 
             inputs, gts, _ = data
+            if inputs.shape[0] != BATCH_SIZE: continue
             assert len(inputs.size()) == 5 and len(gts.size()) == 4
             inputs.transpose_(0, 1)
             gts.transpose_(0, 1)
@@ -157,6 +159,7 @@ def train(train_loader, net, criterion, optimizer, curr_epoch, train_args, val_l
             if curr_iter >= train_args['max_iter']:
                 return
             if curr_iter % train_args['val_freq'] == 0:
+            # if curr_iter % 1 == 0: # debugging
                 validate(val_loader, net, criterion, optimizer, curr_epoch, i + 1, train_args, visualize)
         curr_epoch += 1
 
@@ -167,8 +170,8 @@ def validate(val_loader, net, criterion, optimizer, epoch, iter_num, train_args,
 
     val_loss = AverageMeter()
 
-    gts_all = np.zeros((len(val_loader), args['longer_size'] / 2, args['longer_size']), dtype=int)
-    predictions_all = np.zeros((len(val_loader), args['longer_size'] / 2, args['longer_size']), dtype=int)
+    gts_all = np.zeros((len(val_loader), int(args['longer_size'] / 2), args['longer_size']), dtype=int)
+    predictions_all = np.zeros((len(val_loader), int(args['longer_size'] / 2), args['longer_size']), dtype=int)
     for vi, data in enumerate(val_loader):
         input, gt, slices_info = data
         assert len(input.size()) == 5 and len(gt.size()) == 4 and len(slices_info.size()) == 3
@@ -177,8 +180,8 @@ def validate(val_loader, net, criterion, optimizer, epoch, iter_num, train_args,
         slices_info.squeeze_(0)
         assert input.size()[3:] == gt.size()[2:]
 
-        count = torch.zeros(args['longer_size'] / 2, args['longer_size']).cuda()
-        output = torch.zeros(cityscapes.num_classes, args['longer_size'] / 2, args['longer_size']).cuda()
+        count = torch.zeros(int(args['longer_size'] / 2), args['longer_size']).cuda()
+        output = torch.zeros(cityscapes.num_classes, int(args['longer_size'] / 2), args['longer_size']).cuda()
 
         slice_batch_pixel_size = input.size(1) * input.size(3) * input.size(4)
 
@@ -197,10 +200,11 @@ def validate(val_loader, net, criterion, optimizer, epoch, iter_num, train_args,
             val_loss.update(criterion(output_slice, gt_slice).data[0], slice_batch_pixel_size)
 
         output /= count
-        gts_all[vi, :, :] /= count.cpu().numpy().astype(int)
+        gts_all[vi, :, :] = (gts_all[vi, :, :]/count.cpu().numpy()).astype(int)
         predictions_all[vi, :, :] = output.max(0)[1].squeeze_(0).cpu().numpy()
 
         print('validating: %d / %d' % (vi + 1, len(val_loader)))
+        # if (vi + 1) ==5: break # debugging
 
     acc, acc_cls, mean_iu, fwavacc = evaluate(predictions_all, gts_all, cityscapes.num_classes)
     if val_loss.avg < train_args['best_record']['val_loss']:
